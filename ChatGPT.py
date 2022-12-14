@@ -8,7 +8,7 @@ config = dotenv_values(".env")
 print(config['EMAIL'], config['PASSWORD'])
 
 
-# api = ChatGPT(auth_type='google', email=f"{config['EMAIL']}", password=f"{config['PASSWORD']}")
+api = ChatGPT(auth_type='google', email=f"{config['EMAIL']}", password=f"{config['PASSWORD']}")
 
 
 def update_human_textbox_height(human_chat_frame, new_height):
@@ -24,8 +24,7 @@ def update_ai_textbox_height(ai_chat_frame, new_height):
 
 
 def execute_prompt():
-    print(conversation_frame.winfo_height())
-    # response = api.send_message(message_box_txt.get())
+    response = api.send_message(message_box_txt.get())
 
     human_chat_frame = Frame(conversation_frame, bg="#343541", width=1200, height=70)
     human_chat_frame.pack(side="top", fill="both", expand=True)
@@ -38,7 +37,7 @@ def execute_prompt():
     ai_chat_frame = Frame(conversation_frame, bg="#444654", width=1200, height=70)
     ai_chat_frame.pack(side="top", fill="both", expand=True)
     Label(ai_chat_frame, image=ai_user_icon, bg="#444654").place(x=140, y=17)
-    lb1 = Label(ai_chat_frame, text=f"response['message']", pady=20, bg="#444654", font=font, fg="white",
+    lb1 = Label(ai_chat_frame, text=f"{response['message']}", pady=20, bg="#444654", font=font, fg="white",
                 wraplength=800, justify=LEFT)
     lb1.place(x=190, y=0)
     root.after(120, lambda: update_ai_textbox_height(ai_chat_frame, lb1.winfo_height()))
@@ -99,7 +98,7 @@ canvas.bind("<Leave>", lambda e: disable_scroll())
 canvas.pack(side="top", fill="both", expand=True)
 
 conversation_frame = Frame(canvas, width=1200, height=613, bg="#343541", bd=0, relief='flat')
-# conversation_frame.pack(side="top", fill="both", expand=True)
+conversation_frame.pack(side="top", fill="both", expand=True)
 conversation_frame.pack()
 
 img2 = PhotoImage(file=f"images/chatgpt/chatgpt.png")
