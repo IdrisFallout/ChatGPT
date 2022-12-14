@@ -5,9 +5,6 @@ from pyChatGPT import ChatGPT
 
 config = dotenv_values(".env")
 
-print(config['EMAIL'], config['PASSWORD'])
-
-
 api = ChatGPT(auth_type='google', email=f"{config['EMAIL']}", password=f"{config['PASSWORD']}")
 
 

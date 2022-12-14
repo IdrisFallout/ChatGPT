@@ -48,7 +48,6 @@ def login():
                 f.write(f"EMAIL={email_entry.get()}\nPASSWORD={password_entry.get()}\n{output[2]}")
     except:
         pass
-    print("logged in")
     switching_windows()
 
 
@@ -86,11 +85,6 @@ def add_password_placeholder():
         password_entry.delete(0, END)
         password_entry.configure(fg="#33343A")
         password_entry.insert(0, "Password")
-
-
-
-
-print(check_for_password())
 
 root = Tk()
 root.title("ChatGPT")
