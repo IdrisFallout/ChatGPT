@@ -1,30 +1,31 @@
-import time
 from tkinter import *
-from pyChatGPT import ChatGPT
+
 from dotenv import dotenv_values
+from pyChatGPT import ChatGPT
 
 config = dotenv_values(".env")
 
-session_token = config["SESSION_TOKEN"]
+print(config['EMAIL'], config['PASSWORD'])
 
 
-api = ChatGPT(session_token=session_token)
+# api = ChatGPT(auth_type='google', email=f"{config['EMAIL']}", password=f"{config['PASSWORD']}")
 
 
 def update_human_textbox_height(human_chat_frame, new_height):
     human_chat_frame.configure(height=new_height)
     enable_scroll.counter += new_height
+    conversation_frame.configure(height=conversation_frame.winfo_height() + new_height)
 
 
 def update_ai_textbox_height(ai_chat_frame, new_height):
     ai_chat_frame.configure(height=new_height)
     enable_scroll.counter += new_height
-    conversation_frame.configure(height=enable_scroll.counter)
-    root.after(100, lambda: conversation_frame.update())
+    conversation_frame.configure(height=conversation_frame.winfo_height() + new_height)
 
 
 def execute_prompt():
-    response = api.send_message(message_box_txt.get())
+    print(conversation_frame.winfo_height())
+    # response = api.send_message(message_box_txt.get())
 
     human_chat_frame = Frame(conversation_frame, bg="#343541", width=1200, height=70)
     human_chat_frame.pack(side="top", fill="both", expand=True)
@@ -37,7 +38,7 @@ def execute_prompt():
     ai_chat_frame = Frame(conversation_frame, bg="#444654", width=1200, height=70)
     ai_chat_frame.pack(side="top", fill="both", expand=True)
     Label(ai_chat_frame, image=ai_user_icon, bg="#444654").place(x=140, y=17)
-    lb1 = Label(ai_chat_frame, text=f"{response['message']}", pady=20, bg="#444654", font=font, fg="white",
+    lb1 = Label(ai_chat_frame, text=f"response['message']", pady=20, bg="#444654", font=font, fg="white",
                 wraplength=800, justify=LEFT)
     lb1.place(x=190, y=0)
     root.after(120, lambda: update_ai_textbox_height(ai_chat_frame, lb1.winfo_height()))
@@ -78,7 +79,7 @@ root.geometry(f'{width}x{height}+{int(x)}+{int(y) - 30}')
 font = ("OpenSans-Regular", 11)
 
 human_user_icon = PhotoImage(file=f"images/chatgpt/profile-user.png")
-ai_user_icon = PhotoImage(file=f"images/chatgpt/chatgpt-icon1.png")
+ai_user_icon = PhotoImage(file=f"images/chatgpt/chatgpt2.png")
 
 img0 = PhotoImage(file=f"images/chatgpt/img0.png")
 b0 = Label(image=img0, borderwidth=0, highlightthickness=0, relief="flat", bd=0, bg="#343541")
@@ -100,7 +101,6 @@ canvas.pack(side="top", fill="both", expand=True)
 conversation_frame = Frame(canvas, width=1200, height=613, bg="#343541", bd=0, relief='flat')
 # conversation_frame.pack(side="top", fill="both", expand=True)
 conversation_frame.pack()
-
 
 img2 = PhotoImage(file=f"images/chatgpt/chatgpt.png")
 chatgpt_description_lbl = Label(conversation_frame, image=img2, borderwidth=0, highlightthickness=0, relief="flat", bd=0
